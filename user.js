@@ -16,6 +16,8 @@ const api = got.extend({
   responseType: 'json',
 });
 
+const defaultUserAgent="Mozilla/5.0 (iPhone; U; CPU iPhone OS 3_0 like Mac OS X; en-us) AppleWebKit/528.18 (KHTML, like Gecko) Version/4.0 Mobile/7A341 Safari/528.16";
+
 module.exports = class User {
   ua;
   pt_key;
@@ -40,7 +42,7 @@ module.exports = class User {
     this.cookie = cookie;
     this.eid = eid;
     this.remark = remark;
-    this.ua = ua;
+    this.ua = ua||defaultUserAgent;
 
     if (pt_key && pt_pin) {
       this.cookie = 'pt_key=' + this.pt_key + ';pt_pin=' + this.pt_pin + ';';
@@ -284,8 +286,7 @@ module.exports = class User {
         Connection: 'keep-alive',
         Cookie: this.cookie,
         Referer: 'https://home.m.jd.com/myJd/newhome.action',
-        'User-Agent':
-          'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.111 Safari/537.36',
+        'User-Agent':this.ua,
         Host: 'me-api.jd.com',
       },
     }).json();
